@@ -15,7 +15,7 @@ A neural network a day for a long time so as to train un maximum and actually le
 [MNIST with JAX](./MNIST_JAX/day3.ipynb)
 [MNIST with JAX v2](./MNIST_JAX_2nd_attempt/day4.ipynb)
 [ResNetSpeechEncoder JAX](./ResNetSpeechEncoder_with_JAX/)
-
+[HiFiGaN JAX](./HiFiGAN_with_JAX/)
 
 ## ML Trackers used
 
@@ -44,6 +44,10 @@ A neural network a day for a long time so as to train un maximum and actually le
 #### ResNetSpeechEncoder
 
 [ResNetSpeechEncoder JAX](./ResNetSpeechEncoder_with_JAX/)
+
+#### HiFiGAN
+
+[HiFiGaN JAX](./HiFiGAN_with_JAX/)
 
 ## Unfinished
 
