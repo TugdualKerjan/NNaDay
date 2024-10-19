@@ -2,10 +2,6 @@ A neural network a day for a long time so as to train un maximum and actually le
 
 ## MLFrameworks used
 
-#### JAX
-
-
-
 #### TORCH
 
 [MNIST dumb autoencoder](./MNIST_dumb_Autoencoder/day1.ipynb)
@@ -31,7 +27,8 @@ A neural network a day for a long time so as to train un maximum and actually le
 
 #### MNIST
 
-[MNIST dumb autoencoder](./MNIST_dumb_Autoencoder/day1.ipynb), [MNIST on CNN](MNIST_with_CNN/day2.ipynb)
+[MNIST dumb autoencoder](./MNIST_dumb_Autoencoder/day1.ipynb), [MNIST on CNN](MNIST_with_CNN/day2.ipynb), [MNIST with JAX](./MNIST_JAX/day3.ipynb), 
+[MNIST with JAX v2](./MNIST_JAX_2nd_attempt/day4.ipynb)
 
 
 ## Architectures trained
