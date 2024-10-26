@@ -1,7 +1,11 @@
 test/**
 **/data_commonvoice/**
+**/data-commonvoice/**
 **/dataset/**
 .DS_Store
 HiFiGAN_with_JAX/data-commonvoice.zip
 HiFiGAN_with_JAX/dataset/rec.wav
 HiFiGAN_with_JAX/data-commonvoice.0bZ1J-nb.zip.part
+**/__pycache__/**
+**/wandb/**
+*.zip
