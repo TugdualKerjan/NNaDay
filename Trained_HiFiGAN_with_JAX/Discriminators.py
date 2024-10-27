@@ -14,7 +14,7 @@ def get_padding(kernel_size, dilation=1):
 
 class DiscriminatorP(eqx.Module):
     layers: list
-    period: int
+    period: int = eqx.static_field()
     conv_post: Conv2d
 
     def __init__(self, period, kernel_size=5, stride=3, key=None):
@@ -77,7 +77,6 @@ class MultiPeriodDiscriminator(eqx.Module):
             key, grab = jax.random.split(key, 2)
             self.discriminators.append(DiscriminatorP(period, key=grab))
 
-
     def __call__(self, gen, real):
         preds_gen = []
         preds_real = []
@@ -108,12 +107,12 @@ class DiscriminatorS(eqx.Module):
         key1,key2,key3,key4,key5,key6,key7,key8 = jax.random.split(key, 8)
 
         self.layers = [
-                Conv1d(1, 128, 15, 1, padding=7, key=key1),
-                Conv1d(128, 128, 41, 2, groups=4, padding=20, key=key2),
-                Conv1d(128, 256, 41, 2, groups=16, padding=20, key=key3),
-                Conv1d(256, 512, 41, 4, groups=16, padding=20, key=key4),
-                Conv1d(512, 1024, 41, 4, groups=16, padding=20, key=key5),
-                Conv1d(1024, 1024, 41, 1, groups=16, padding=20, key=key6),
+                Conv1d(1, 128, 15, 2, padding=7, key=key1),
+                Conv1d(128, 128, 41, 4, groups=4, padding=20, key=key2),
+                Conv1d(128, 256, 41, 8, groups=16, padding=20, key=key3),
+                Conv1d(256, 512, 41, 16, groups=16, padding=20, key=key4),
+                Conv1d(512, 1024, 41, 16, groups=16, padding=20, key=key5),
+                Conv1d(1024, 1024, 41, 4, groups=16, padding=20, key=key6),
                 Conv1d(1024, 1024, 5, 1, padding=2, key=key7)
             ]
         self.conv_post = Conv1d(1024, 1, 3, 1, padding=1, key=key8)
@@ -138,8 +137,11 @@ class DiscriminatorS(eqx.Module):
 
 
 
+from equinox.nn import AvgPool1d
+
 class MultiScaleDiscriminator(eqx.Module):
     discriminators: list
+    avg_pools: AvgPool1d = eqx.static_field()
     # TODO need to add spectral norm things
     def __init__(self, key=None):
         key1,key2,key3 = jax.random.split(key, 3)
@@ -149,21 +151,36 @@ class MultiScaleDiscriminator(eqx.Module):
             DiscriminatorS(key2),
             DiscriminatorS(key3),
         ]
+        self.avg_pools = AvgPool1d(4, 2, padding=2)
 
-    def __call__(self, gen, real):
+    def __call__(self, fake, real):
         preds_gen = []
         preds_real = []
         fmaps_gen = []
         fmaps_real = []
 
         for disc in self.discriminators:
-            pred, fmap = disc(gen)
+            # print(fake.shape)
+            # print(real.shape)
+            
+
+
+
+            pred, fmap = disc(fake)
+            # print(pred.shape)
             preds_gen.append(pred)
             fmaps_gen.append(fmap)
             
-            pred, fmap = disc(real)
-            preds_real.append(pred)
-            fmaps_real.append(fmap)
+            pred2, fmap2 = disc(real)
+            # print(pred2.shape)
+            preds_real.append(pred2)
+            fmaps_real.append(fmap2)
+
+            fake = self.avg_pools(fake)
+            real = self.avg_pools(real)
+
+        # print(preds_gen)
+        # print(preds_real)
         
         return preds_gen, preds_real, fmaps_gen, fmaps_real
 

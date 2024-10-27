@@ -54,13 +54,14 @@ class Generator(eqx.Module):
 
 
             layer.append(nn.ConvTranspose1d(current_chans, int(current_chans / 2), kernel_size=k, stride=u, padding=((padding - 2, padding + 2),), key=grab1))  # Ensure stride and padding are integers
-            # layer.append(MRF(channel_in=int(current_chans / 2), kernel_sizes=k_r, dilations=dilations, key= grab2))
+            layer.append(MRF(channel_in=int(current_chans / 2), kernel_sizes=k_r, dilations=dilations, key= grab2))
             self.layers.append(layer)
         
         self.post_magic = nn.Conv1d(int(current_chans / 2), channels_out, kernel_size=7, stride=1, padding=3, key=key)
         # self.post_magic = nn.WeightNorm(self.post_magic,
 
     def __call__(self, x):
+
         y = self.pre_magic(x)
 
         for layer in self.layers:
@@ -72,5 +73,3 @@ class Generator(eqx.Module):
         y = self.post_magic(y)
         y = jax.nn.tanh(y)
         return y
-
-    
