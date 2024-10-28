@@ -49,11 +49,9 @@ class Generator(eqx.Module):
             key, grab1, grab2 = jax.random.split(key, 3)
 
             # These upsample the mel by cutting channels by half but increasing by 16/2 = 8 with a transpose.
-
             padding = int((k-u)/2)
 
-
-            layer.append(nn.ConvTranspose1d(current_chans, int(current_chans / 2), kernel_size=k, stride=u, padding=((padding - 2, padding + 2),), key=grab1))  # Ensure stride and padding are integers
+            layer.append(nn.ConvTranspose1d(current_chans, int(current_chans / 2), kernel_size=k, stride=u, padding=((padding - 2, padding + 2),), key=grab1)) # Ensure stride and padding are integers
             layer.append(MRF(channel_in=int(current_chans / 2), kernel_sizes=k_r, dilations=dilations, key= grab2))
             self.layers.append(layer)
         

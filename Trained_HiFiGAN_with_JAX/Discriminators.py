@@ -65,7 +65,6 @@ class DiscriminatorP(eqx.Module):
 
 
 
-
 class MultiPeriodDiscriminator(eqx.Module):
     discriminators: list
 
@@ -76,6 +75,7 @@ class MultiPeriodDiscriminator(eqx.Module):
 
             key, grab = jax.random.split(key, 2)
             self.discriminators.append(DiscriminatorP(period, key=grab))
+
 
     def __call__(self, gen, real):
         preds_gen = []
@@ -93,7 +93,6 @@ class MultiPeriodDiscriminator(eqx.Module):
             fmaps_real.append(fmap)
         
         return preds_gen, preds_real, fmaps_gen, fmaps_real
-
 
 
 
@@ -133,7 +132,6 @@ class DiscriminatorS(eqx.Module):
 
         return y, fmap
         
-
 
 
 
