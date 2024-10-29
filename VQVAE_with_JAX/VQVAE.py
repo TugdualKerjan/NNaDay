@@ -64,6 +64,7 @@ class Encoder(eqx.Module):
 
 
 
+
 class Decoder(eqx.Module):
     layers: list
 
@@ -88,6 +89,7 @@ class Decoder(eqx.Module):
         y = jax.nn.sigmoid(y)
     
         return y, state
+
 
 
 
