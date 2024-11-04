@@ -9,5 +9,8 @@ HiFiGAN_with_JAX/data-commonvoice.zip
 HiFiGAN_with_JAX/dataset/rec.wav
 HiFiGAN_with_JAX/data-commonvoice.0bZ1J-nb.zip.part
 **/__pycache__/**
+**/logs/**
 **/wandb/**
 *.zip
+
+Encodec/DAC-JAX/
